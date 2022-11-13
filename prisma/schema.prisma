@@ -3,6 +3,45 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Account {
+  id String @id @default(uuid())
+
+  name      String
+  email     String  @unique
+  password  String?
+  avatarUrl String?
+  discordId String?
+
+  createdAt DateTime @default(now())
+
+  authTokens AccountAuthToken[]
+
+  @@map("accounts")
+}
+
+model AccountAuthToken {
+  id String @id @default(uuid())
+
+  refreshToken String
+
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId String
+
+  expiresDate DateTime
+
+  createdAt DateTime @default(now())
+
+  @@map("accountAuthTokens")
+}
+
+model Newsletter {
+  id String @id @default(uuid())
+
+  email String
+
+  @@map("newsletter")
 }
