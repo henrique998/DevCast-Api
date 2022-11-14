@@ -18,7 +18,10 @@ model Account {
 
   createdAt DateTime @default(now())
 
-  authTokens AccountAuthToken[]
+  authTokens        AccountAuthToken[]
+  likes             Like[]
+  favoritesEpisodes Favorites[]
+  playLists         Playlist[]
 
   @@map("accounts")
 }
@@ -44,4 +47,72 @@ model Newsletter {
   email String
 
   @@map("newsletter")
+}
+
+model Episode {
+  id String @id @default(uuid())
+
+  thumbnail   String
+  title       String
+  members     String
+  description String
+  slug        String
+
+  url      String
+  type     String
+  duration Int
+
+  publishedAt String
+
+  likes     Like[]
+  Favorites Favorites[]
+
+  playlist   Playlist? @relation(fields: [playlistId], references: [id])
+  playlistId String?
+
+  @@map("episodes")
+}
+
+model Like {
+  id String @id @default(uuid())
+
+  episode   Episode? @relation(fields: [episodeId], references: [id])
+  episodeId String?
+
+  account   Account? @relation(fields: [accountId], references: [id])
+  accountId String?
+
+  @@map("likes")
+}
+
+model Favorites {
+  id String @id @default(uuid())
+
+  episode   Episode? @relation(fields: [episodeId], references: [id])
+  episodeId String?
+
+  account   Account? @relation(fields: [accountId], references: [id])
+  accountId String?
+
+  createdAt DateTime @default(now())
+
+  @@map("favorites")
+}
+
+model Playlist {
+  id String @id @default(uuid())
+
+  name        String
+  description String?
+  coverImage  String?
+  slug        String
+
+  episodes Episode[]
+
+  account   Account? @relation(fields: [accountId], references: [id])
+  accountId String?
+
+  createdAt DateTime @default(now())
+
+  @@map("playlists")
 }

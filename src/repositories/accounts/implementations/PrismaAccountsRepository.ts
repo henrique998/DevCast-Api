@@ -1,6 +1,7 @@
 import { prisma } from "../../../config/prisma"
 import { AccountDataDTO } from "../../../dtos/account/AccountDataDTO"
 import { ICreateAccountDTO } from "../../../dtos/account/ICreateAccountDTO"
+import { IUpdateAccountDTO } from "../../../dtos/account/IUpdateAccountDTO"
 import { IAccountsRepository } from "../IAccountsRepository"
 
 class PrismaAccountsRepository implements IAccountsRepository {
@@ -47,6 +48,18 @@ class PrismaAccountsRepository implements IAccountsRepository {
         })
 
         return accountsQty
+    }
+
+    async update(data: IUpdateAccountDTO): Promise<void> {
+        await prisma.account.update({
+            where: {
+                id: data.accountId,
+            },
+            data: {
+                name: data.name,
+                email: data.email
+            }
+        })
     }
 }
 
