@@ -4,7 +4,6 @@ interface AccountDataDTO {
     email: string
     password?: string
     avatarUrl?: string
-    discordId?: string
 }
 
 export { AccountDataDTO }

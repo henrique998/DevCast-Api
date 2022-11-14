@@ -14,7 +14,6 @@ model Account {
   email     String  @unique
   password  String?
   avatarUrl String?
-  discordId String?
 
   createdAt DateTime @default(now())
 

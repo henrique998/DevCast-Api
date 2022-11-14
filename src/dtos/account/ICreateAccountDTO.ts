@@ -3,7 +3,6 @@ interface ICreateAccountDTO {
     email: string
     password?: string
     avatarUrl?: string
-    discordId?: string
 }
 
 export { ICreateAccountDTO };

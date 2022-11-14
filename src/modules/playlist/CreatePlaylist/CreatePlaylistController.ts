@@ -6,7 +6,8 @@ import { CreatePlaylistUseCase } from "./CreatePlaylistUseCase"
 class CreatePlaylistController {
     async handle(req: Request, res: Response): Promise<Response> {
         const { id: accountId } = req.account
-        const { name, coverImage, description } = req.body
+        const { name, description } = req.body
+        const coverImage = req.file.filename
 
         const createPlaylistUseCase = container.resolve(CreatePlaylistUseCase)
 

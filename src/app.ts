@@ -16,7 +16,7 @@ const app = express()
 
 app.use(express.json())
 
-app.use("/images", express.static(resolve(__dirname, "..", "tmp")))
+app.use("/images", express.static(resolve(__dirname, "..", "uploads")))
 app.use(cors())
 app.use(routes)
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile))

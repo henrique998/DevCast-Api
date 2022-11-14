@@ -9,15 +9,18 @@ import { AccountMap } from "../../../mappers/AccountMap"
 import { IAccountAuthTokensRepository } from "../../../repositories/accountAuthTokens/IAccountAuthTokensRepository"
 import dayjs from "dayjs"
 
+const client_id = process.env.GITHUB_CLIENT_ID;
+const client_secret = process.env.GITHUB_CLIENT_SECRETS;
+
 interface ITokenResponse {
     access_token: string
 }
 
 interface AccountData {
     id: string
-    username: string
-    email: string
-    avatar: string
+    name: string;
+    email: string;
+    avatar_url: string;
 }
 
 interface IResponse {
@@ -32,7 +35,7 @@ interface IResponse {
 }
 
 @injectable()
-class AuthenticateWithDiscordUseCase {
+class AuthenticateWithGithubUseCase {
     constructor(
         @inject("PrismaAccountsRepository")
         private accountsRepository: IAccountsRepository,
@@ -40,42 +43,39 @@ class AuthenticateWithDiscordUseCase {
         private accountAuthTokens: IAccountAuthTokensRepository
     ) {}
 
-    async execute(discord_code: string): Promise<IResponse> {
-        const discordApiTokenUrl = "https://discord.com/api/v10/oauth2/token"
-
-        const formData = new url.URLSearchParams({
-            client_id: process.env.DISCORD_CLIENT_ID,
-            client_secret: process.env.DISCORD_CLIENT_SECRET,
-            grant_type: "authorization_code",
-            code: discord_code,
-            redirect_uri: "http://localhost:3333/discord/redirect",
-        })
+    async execute(github_code: string): Promise<IResponse> {
+        const url = "https://github.com/login/oauth/access_token";
 
         const {
             data: { access_token },
-        } = await axios.post<ITokenResponse>(discordApiTokenUrl, formData, {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
+        } = await axios.post<ITokenResponse>(url, null, {
+            params: {
+                client_id,
+                client_secret,
+                code: github_code,
             },
-        })
+            headers: {
+                Accept: "application/json",
+            },
+        });
 
         const {
             data,
-        } = await axios.get<AccountData>("https://discord.com/api/v8/users/@me", {
+        } = await axios.get<AccountData>("https://api.github.com/user", {
             headers: {
                 authorization: `Bearer ${access_token}`,
             },
-        })
+        });
 
-        const { id, username, email, avatar } = data
+        const { id, name, email, avatar_url } = data
 
         let accountExists = await this.accountsRepository.findByAccountEmail(email)
 
         if (!accountExists) {
             accountExists = await this.accountsRepository.create({
-                name: username,
+                name,
                 email: email,
-                avatarUrl: avatar,
+                avatarUrl: avatar_url,
                 discordId: id
             })
         }
@@ -108,4 +108,4 @@ class AuthenticateWithDiscordUseCase {
     }
 }
 
-export { AuthenticateWithDiscordUseCase }
+export { AuthenticateWithGithubUseCase }

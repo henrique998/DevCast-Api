@@ -5,7 +5,7 @@ import { IAccountAuthTokensRepository } from "../IAccountAuthTokensRepository";
 
 class PrismaAccountAuthTokensRepository implements IAccountAuthTokensRepository {
     async create(data: ICreateAccountAuthTokenDTO): Promise<void> {
-        const accountAuthToken = await prisma.accountAuthToken.create({
+        await prisma.accountAuthToken.create({
             data: {
                 refreshToken: data.refreshToken,
                 accountId: data.accountId,

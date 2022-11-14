@@ -18,7 +18,7 @@ router.use("/likes", likesRoutes);
 router.use("/favorites-episodes", favoritesEpisodesRoutes);
 router.use("/playlists", playlistsRoutes);
 
-router.get("/discord/redirect", (req, res) => {
+router.get("/github/redirect", (req, res) => {
     return res.send("github redirect!")
 })
 

@@ -2,6 +2,7 @@ import { prisma } from "../../../config/prisma"
 import { AccountDataDTO } from "../../../dtos/account/AccountDataDTO"
 import { ICreateAccountDTO } from "../../../dtos/account/ICreateAccountDTO"
 import { IUpdateAccountDTO } from "../../../dtos/account/IUpdateAccountDTO"
+import { IUpdateAvatarAccountDTO } from "../../../dtos/account/IUpdateAvatarAccountDTO"
 import { IAccountsRepository } from "../IAccountsRepository"
 
 class PrismaAccountsRepository implements IAccountsRepository {
@@ -12,7 +13,6 @@ class PrismaAccountsRepository implements IAccountsRepository {
                 email: data.email,
                 password: data.password,
                 avatarUrl: data.avatarUrl,
-                discordId: data.discordId
             }
         })
 
@@ -60,6 +60,19 @@ class PrismaAccountsRepository implements IAccountsRepository {
                 email: data.email
             }
         })
+    }
+
+    async updateAvatar(data: IUpdateAvatarAccountDTO): Promise<AccountDataDTO> {
+        const account = await prisma.account.update({
+            data: {
+                avatarUrl: data.avatarUrl
+            },
+            where: {
+                id: data.accountId
+            }
+        }) 
+
+        return account
     }
 }
 
