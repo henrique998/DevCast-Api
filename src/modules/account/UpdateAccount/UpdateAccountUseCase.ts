@@ -4,8 +4,8 @@ import { IAccountsRepository } from "../../../repositories/accounts/IAccountsRep
 
 interface IRequest {
     accountId: string
-    name: string
-    email: string
+    name?: string
+    email?: string
 }    
 
 @injectable()
@@ -18,14 +18,6 @@ class UpdateAccountUseCase {
     async execute({ accountId, email, name }: IRequest): Promise<void> {
         if (!accountId) {
             throw new AppError("account id is required!")
-        }
-
-        if (!email) {
-            throw new AppError("email is required!")
-        }
-
-        if (!name) {
-            throw new AppError("name is required!")
         }
 
         const accountExists = await this.accountsRepository.findByAccountId(accountId)

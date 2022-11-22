@@ -50,8 +50,8 @@ class PrismaAccountsRepository implements IAccountsRepository {
         return accountsQty
     }
 
-    async update(data: IUpdateAccountDTO): Promise<void> {
-        await prisma.account.update({
+    async update(data: IUpdateAccountDTO): Promise<AccountDataDTO> {
+        const account = await prisma.account.update({
             where: {
                 id: data.accountId,
             },
@@ -60,6 +60,8 @@ class PrismaAccountsRepository implements IAccountsRepository {
                 email: data.email
             }
         })
+
+        return account
     }
 
     async updateAvatar(data: IUpdateAvatarAccountDTO): Promise<AccountDataDTO> {

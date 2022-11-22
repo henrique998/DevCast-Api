@@ -8,7 +8,7 @@ interface IAccountsRepository {
     findByAccountId(accountId: string): Promise<AccountDataDTO>;
     findByAccountEmail(email: string): Promise<AccountDataDTO>;
     getLastFour(): Promise<AccountDataDTO[]>;
-    update(data: IUpdateAccountDTO): Promise<void>;
+    update(data: IUpdateAccountDTO): Promise<AccountDataDTO>;
     updateAvatar(data: IUpdateAvatarAccountDTO): Promise<AccountDataDTO>;
 }
 
