@@ -14,6 +14,11 @@ interface UniquePlaylistDataDTO {
         publishedAt: string
         duration: number
         slug: string
+        likes: {
+            id: string
+            accountId: string
+            episodeId: string
+        }[]
     }[]
     _count: {
         episodes: number

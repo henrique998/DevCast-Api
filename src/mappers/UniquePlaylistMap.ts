@@ -11,7 +11,12 @@ class UniquePlaylistMap {
         name,
         description,
         episodesCount: _count.episodes,
-        episodes
+        episodes: episodes.map(episode => {
+            return {
+                ...episode,
+                aplauses: episode.likes.length
+            }
+        })
     }
    }
 }

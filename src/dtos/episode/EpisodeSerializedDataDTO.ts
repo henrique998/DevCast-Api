@@ -6,7 +6,7 @@ interface EpisodeSerializedDataDTO {
     publishedAt: string, 
     duration: number, 
     audioUrl: string,
-    likesCount: number
+    aplauses: number
 }
 
 export { EpisodeSerializedDataDTO }

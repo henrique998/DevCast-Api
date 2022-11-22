@@ -61,7 +61,14 @@ class PrismaPlaylistsRepository implements IPlaylistsRepository {
                         members: true,
                         publishedAt: true,
                         duration: true,
-                        slug: true
+                        slug: true,
+                        likes: {
+                            select: {
+                                id: true,
+                                accountId: true,
+                                episodeId: true,
+                            }
+                        }
                     },
                 },
                 _count: {

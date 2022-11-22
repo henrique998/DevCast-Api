@@ -19,7 +19,7 @@ class EpisodeMap {
             publishedAt, 
             duration, 
             audioUrl: url,
-            likesCount: _count.likes
+            aplauses: _count.likes
         }
     }
 }

@@ -15,7 +15,7 @@ class UpdateAvatarController {
             avatarUrl
         })
 
-        return res.json(result)
+        return res.json({ newAvatarUrl: result })
     }
 }
 
