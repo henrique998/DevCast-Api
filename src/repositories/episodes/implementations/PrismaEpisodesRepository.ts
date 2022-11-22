@@ -4,8 +4,8 @@ import { ICreateEpisodeDTO } from "../../../dtos/episode/ICreateEpisodeDTO";
 import { IEpisodesRepository } from "../IEpisodesRepository";
 
 class PrismaEpisodesRepository implements IEpisodesRepository {
-    async create(data: ICreateEpisodeDTO): Promise<EpisodeDataDTO> {
-        const episode = await prisma.episode.create({
+    async create(data: ICreateEpisodeDTO): Promise<void> {
+        await prisma.episode.create({
             data: {
                 thumbnail: data.thumbnail,
                 title: data.title,
@@ -16,14 +16,21 @@ class PrismaEpisodesRepository implements IEpisodesRepository {
                 type: data.type,
                 duration: data.duration,
                 publishedAt: data.publishedAt,
+
             }
         })
-
-        return episode
     }
 
     async findAll(): Promise<EpisodeDataDTO[]> {
-        const episodes = await prisma.episode.findMany()
+        const episodes = await prisma.episode.findMany({
+            include: {
+                _count: {
+                    select: {
+                        likes: true
+                    }
+                }
+            }
+        })
 
         return episodes
     }

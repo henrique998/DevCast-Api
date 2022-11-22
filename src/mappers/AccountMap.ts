@@ -9,7 +9,7 @@ class AccountMap {
             id,
             name,
             email,
-            avatarUrl: githubAvatarExists ? avatarUrl : `${storages.local_storage}/avatar/${avatarUrl}`
+            avatarUrl: githubAvatarExists ? avatarUrl : (avatarUrl !== null ? `${storages.local_storage}/avatar/${avatarUrl}` : null)
         }
     }
 }

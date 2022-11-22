@@ -36,7 +36,7 @@ class RefreshTokenUseCase {
         await this.accountAuthTokens.deleteById(authToken.id)
 
         const newToken = sign({}, authConfig.TOKEN_SECRET_KEY, {
-            expiresIn: "15m",
+            expiresIn: 10,
             subject: accountId,
         })
         

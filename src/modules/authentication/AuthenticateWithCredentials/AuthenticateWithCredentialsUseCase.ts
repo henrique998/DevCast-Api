@@ -38,13 +38,17 @@ class AuthenticateWithCredentialsUseCase {
 
     async execute({ email, password }: IRequest): Promise<IResponse> {
         if (!email || !password) {
-            throw new AppError('missing data', 404)
+            throw new AppError('missing data')
         }
 
         const accountExists = await this.accountsRepository.findByAccountEmail(email)
 
         if (!accountExists) {
             throw new AppError('account not found', 404) 
+        }
+
+        if (!accountExists.password) {
+            return;
         }
 
         const passwordMatch = await compare(password, accountExists.password)
@@ -54,7 +58,7 @@ class AuthenticateWithCredentialsUseCase {
         }
 
         const token = sign({}, authConfig.TOKEN_SECRET_KEY, {
-            expiresIn: "15m",
+            expiresIn: 10,
             subject: accountExists.id,
         })
 

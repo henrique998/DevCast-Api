@@ -11,7 +11,7 @@ const authenticateWithGithubController = new AuthenticateWithGithubController()
 const refreshTokenController = new RefreshTokenController()
 
 authenticationRoute.post("/credentials", authenticateWithCredentialsController.handle)
-authenticationRoute.post("/discord", authenticateWithGithubController.handle)
+authenticationRoute.post("/github", authenticateWithGithubController.handle)
 authenticationRoute.post("/refresh-token", refreshTokenController.handle)
 
 export { authenticationRoute as authenticationRoutes }
