@@ -76,6 +76,17 @@ class PrismaAccountsRepository implements IAccountsRepository {
 
         return account
     }
+
+    async deleteAvatar(accountId: string): Promise<void> {
+        await prisma.account.update({
+            where: {
+                id: accountId
+            },
+            data: {
+                avatarUrl: null
+            }
+        })
+    }
 }
 
 export { PrismaAccountsRepository }

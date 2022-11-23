@@ -58,7 +58,7 @@ class AuthenticateWithCredentialsUseCase {
         }
 
         const token = sign({}, authConfig.TOKEN_SECRET_KEY, {
-            expiresIn: 10,
+            expiresIn: "15m",
             subject: accountExists.id,
         })
 

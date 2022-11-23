@@ -6,7 +6,7 @@ class PlaylistCardMap {
       return {
         id,
         name,
-        coverImage: `${storages.local_storage}/coverImage/${coverImage}`,
+        coverImage: coverImage ? `${storages.local_storage}/coverImage/${coverImage}` : null,
         slug,
         episodesCount: _count.episodes,
         createdAt

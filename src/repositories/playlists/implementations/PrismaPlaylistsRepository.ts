@@ -75,7 +75,7 @@ class PrismaPlaylistsRepository implements IPlaylistsRepository {
                     select: {
                         episodes: true
                     }
-                }
+                },
             }
         })
 

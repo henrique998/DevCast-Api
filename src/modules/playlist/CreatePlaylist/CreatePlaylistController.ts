@@ -7,7 +7,7 @@ class CreatePlaylistController {
     async handle(req: Request, res: Response): Promise<Response> {
         const { id: accountId } = req.account
         const { name, description } = req.body
-        const coverImage = req.file.filename
+        const coverImage = req.file?.filename
 
         const createPlaylistUseCase = container.resolve(CreatePlaylistUseCase)
 

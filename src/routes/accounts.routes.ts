@@ -9,6 +9,7 @@ import { GetProfileInfoController } from "../modules/account/GetProfileInfo/GetP
 import { UpdateAccountController } from "../modules/account/UpdateAccount/UpdateAccountController"
 import { UpdateAvatarController } from "../modules/account/UpdateAvatar/UpdateAvatarController"
 import multer from "multer"
+import { DeleteAvatarController } from "../modules/account/DeleteAvatar/DeleteAvatarController"
 
 const accountRoute = Router()
 
@@ -19,6 +20,7 @@ const getLastFourAccountsController = new GetLastFourAccountsController()
 const getProfileInfoController = new GetProfileInfoController()
 const updateAccountController = new UpdateAccountController()
 const updateAvatarController = new UpdateAvatarController()
+const deleteAvatarController = new DeleteAvatarController()
 
 accountRoute.get("/last-four", getLastFourAccountsController.handle)
 accountRoute.get("/me", ensureAuthenticated, getProfileInfoController.handle)
@@ -29,6 +31,11 @@ accountRoute.patch(
     ensureAuthenticated, 
     uploadAvatar.single("avatar"), 
     updateAvatarController.handle
+)
+accountRoute.delete(
+    "/delete/avatar", 
+    ensureAuthenticated,
+    deleteAvatarController.handle
 )
 
 export { accountRoute as accountRoutes }

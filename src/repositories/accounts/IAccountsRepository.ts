@@ -10,6 +10,7 @@ interface IAccountsRepository {
     getLastFour(): Promise<AccountDataDTO[]>;
     update(data: IUpdateAccountDTO): Promise<AccountDataDTO>;
     updateAvatar(data: IUpdateAvatarAccountDTO): Promise<AccountDataDTO>;
+    deleteAvatar(accountId: string): Promise<void>;
 }
 
 export { IAccountsRepository };

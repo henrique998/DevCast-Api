@@ -76,12 +76,12 @@ class AuthenticateWithGithubUseCase {
                 name,
                 email: email,
                 avatarUrl: avatar_url,
-                discordId: id
+                discordd: id
             })
         }
 
         const token = sign({}, authConfig.TOKEN_SECRET_KEY, {
-            expiresIn: "1d",
+            expiresIn: "15m",
             subject: accountExists.id,
         })
 

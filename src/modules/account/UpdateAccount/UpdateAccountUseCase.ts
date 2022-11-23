@@ -8,6 +8,11 @@ interface IRequest {
     email?: string
 }    
 
+interface IResponse {
+    name: string
+    email: string
+}
+
 @injectable()
 class UpdateAccountUseCase {
     constructor(
@@ -15,7 +20,7 @@ class UpdateAccountUseCase {
         private accountsRepository: IAccountsRepository
     ) {}
 
-    async execute({ accountId, email, name }: IRequest): Promise<void> {
+    async execute({ accountId, email, name }: IRequest): Promise<IResponse> {
         if (!accountId) {
             throw new AppError("account id is required!")
         }
@@ -30,11 +35,18 @@ class UpdateAccountUseCase {
             throw new AppError("Unauthorized action!")
         }
 
-        await this.accountsRepository.update({
+        const accountData = await this.accountsRepository.update({
             accountId,
             name,
             email
         })
+
+        const account = {
+            name: accountData.name,
+            email: accountData.email
+        }
+
+        return account
     }
 }
 

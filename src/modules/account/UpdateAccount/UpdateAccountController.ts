@@ -10,13 +10,13 @@ class UpdateAccountController {
 
         const updateAccountUseCase = container.resolve(UpdateAccountUseCase)
 
-        await updateAccountUseCase.execute({
+        const result = await updateAccountUseCase.execute({
             accountId,
             name,
             email
         })
 
-        return res.json({ message: "Account updated successfuly!" })
+        return res.json(result)
     }
 }
 
