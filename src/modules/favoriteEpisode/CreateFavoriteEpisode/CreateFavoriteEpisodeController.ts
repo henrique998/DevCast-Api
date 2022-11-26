@@ -10,12 +10,12 @@ class CreateFavoriteEpisodeController {
 
         const createFavoriteEpisodeUseCase = container.resolve(CreateFavoriteEpisodeUseCase)
 
-        await createFavoriteEpisodeUseCase.execute({
+        const result = await createFavoriteEpisodeUseCase.execute({
             episodeId,
             accountId
         })
 
-        return res.json({ message: "Episode added to favorites successfuly!" })
+        return res.json(result.episode)
     }
 }
 

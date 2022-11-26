@@ -24,6 +24,6 @@ playlistsRoute.post(
 )
 playlistsRoute.get("/", ensureAuthenticated, findAllPlaylistsController.handle)
 playlistsRoute.get("/:slug", ensureAuthenticated, getPlaylistController.handle)
-playlistsRoute.put("/add-episode/:episodeId", ensureAuthenticated, addEpisodeController.handle)
+playlistsRoute.post("/add-episode/:episodeId", ensureAuthenticated, addEpisodeController.handle)
 
 export { playlistsRoute as playlistsRoutes }

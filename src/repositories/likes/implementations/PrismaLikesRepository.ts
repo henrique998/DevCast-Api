@@ -1,5 +1,6 @@
 import { prisma } from "../../../config/prisma";
 import { ICreateLikeDTO } from "../../../dtos/likes/ICreateLikeDTO";
+import { IFindByAccountAndEpisodeDTO } from "../../../dtos/likes/IFindByAccountAndEpisodeDTO";
 import { LikeDataDTO } from "../../../dtos/likes/LikeDataDTO";
 import { ILikesRepository } from "../ILikesRepository";
 
@@ -14,6 +15,17 @@ class PrismaLikesRepository implements ILikesRepository {
         const like = await prisma.like.findUnique({
             where: {
                 id: likeId
+            }
+        })
+
+        return like
+    }
+
+    async findByAccountIdAndEpisode(data: IFindByAccountAndEpisodeDTO): Promise<LikeDataDTO> {
+        const like = await prisma.like.findFirst({
+            where: {
+                accountId: data.accountId,
+                episodeId: data.episodeId
             }
         })
 

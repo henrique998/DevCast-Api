@@ -20,10 +20,13 @@ class GetPlaylistUseCase {
             throw new AppError("slug is required!")
         }
 
-        const playlistExists = await this.playlistsRepository.findBySlug(slug)
+        const playlistExists = await this.playlistsRepository.findBySlugAndAccountId({
+            accountId,
+            slug
+        })
 
-        if (playlistExists && playlistExists.accountId !== accountId) {
-            throw new AppError("Unauthorized action!")
+        if (!playlistExists) {
+            throw new AppError("Playlist not found!")
         }
 
         const playlist = UniquePlaylistMap.toDto(playlistExists)

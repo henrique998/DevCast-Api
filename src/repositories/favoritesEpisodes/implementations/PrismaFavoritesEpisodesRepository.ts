@@ -6,13 +6,29 @@ import { IFindFavoriteEpisodeDTO } from "../../../dtos/favoriteEpisode/IFindFavo
 import { IFavoritesEpisodesRepository } from "../IFavoritesEpisodesRepository";
 
 class PrismaFavoritesEpisodesRepository implements IFavoritesEpisodesRepository {
-    async create(data: ICreateFavoriteEpisodeDTO): Promise<void> {
-        await prisma.favorites.create({
+    async create(data: ICreateFavoriteEpisodeDTO): Promise<FavoriteEpisodeSerialiazedDataDTO> {
+        const episode = await prisma.favorites.create({
             data: {
                 episodeId: data.episodeId,
                 accountId: data.accountId
+            },
+            select: {
+                episode: {
+                    select: {
+                        id: true,
+                        thumbnail: true,
+                        title: true,
+                        duration: true,
+                        members: true,
+                        publishedAt: true,
+                        slug: true
+                    }
+                },
+                accountId: true
             }
         })
+
+        return episode
     }
 
     async findAll(accountId: string): Promise<FavoriteEpisodeSerialiazedDataDTO[]> {
@@ -29,9 +45,11 @@ class PrismaFavoritesEpisodesRepository implements IFavoritesEpisodesRepository 
                         duration: true,
                         members: true,
                         publishedAt: true,
-                        slug: true
+                        slug: true,
+                        url: true
                     }
-                }
+                },
+                accountId: true
             },
             orderBy: {
                 createdAt: 'desc'

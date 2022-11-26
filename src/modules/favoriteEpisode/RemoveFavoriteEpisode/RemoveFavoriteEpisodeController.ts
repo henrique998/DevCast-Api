@@ -6,13 +6,13 @@ import { RemoveFavoriteEpisodeUseCase } from "./RemoveFavoriteEpisodeUseCase"
 class RemoveFavoriteEpisodeController {
     async handle(req: Request, res: Response): Promise<Response> {
         const { id: accountId } = req.account
-        const { favoriteEpisodeId } = req.body
+        const { episodeId } = req.params
 
         const removeFavoriteEpisodeUseCase = container.resolve(RemoveFavoriteEpisodeUseCase)
 
         await removeFavoriteEpisodeUseCase.execute({
             accountId,
-            favoriteEpisodeId
+            favoriteEpisodeId: episodeId
         })
 
         return res.json({ message: "Episode removed from favorites successfuly!" })

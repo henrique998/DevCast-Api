@@ -6,17 +6,13 @@ import { DeleteLikeUseCase } from "./DeleteLikeUseCase"
 class DeleteLikeController {
     async handle(req: Request, res: Response): Promise<Response> {
         const { id: accountId } = req.account
-        const { likeId } = req.body
+        const { episodeId } = req.params
 
-        try {
-            const deleteLikeUseCase = container.resolve(DeleteLikeUseCase)
+        const deleteLikeUseCase = container.resolve(DeleteLikeUseCase)
 
-            const result = await deleteLikeUseCase.execute({ accountId, likeId })
+        await deleteLikeUseCase.execute({ accountId, episodeId })
 
-            return res.json(result)
-        } catch (error) {
-            return res.json({ error: error.message })
-        }
+        return res.json({ message: "aplause deleted successfully!" })
     }
 }
 

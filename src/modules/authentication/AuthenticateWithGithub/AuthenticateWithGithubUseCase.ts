@@ -1,4 +1,3 @@
-import url from "url"
 import { inject, injectable } from "tsyringe"
 import axios from "axios"
 
@@ -50,8 +49,8 @@ class AuthenticateWithGithubUseCase {
             data: { access_token },
         } = await axios.post<ITokenResponse>(url, null, {
             params: {
-                client_id,
-                client_secret,
+                client_id: "81c853858d05811fb5c8",
+                client_secret: "ef682c148e5bdb095df0b2e2eb5698f666d5d13b",
                 code: github_code,
             },
             headers: {
@@ -67,7 +66,7 @@ class AuthenticateWithGithubUseCase {
             },
         });
 
-        const { id, name, email, avatar_url } = data
+        const { name, email, avatar_url } = data
 
         let accountExists = await this.accountsRepository.findByAccountEmail(email)
 
@@ -76,7 +75,6 @@ class AuthenticateWithGithubUseCase {
                 name,
                 email: email,
                 avatarUrl: avatar_url,
-                discordd: id
             })
         }
 

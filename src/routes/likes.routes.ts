@@ -13,6 +13,6 @@ const deletelikeController = new DeleteLikeController()
 
 likeRoute.get("/", ensureAuthenticated, findAllLikesController.handle)
 likeRoute.post("/", ensureAuthenticated, createlikeController.handle)
-likeRoute.delete("/", ensureAuthenticated, deletelikeController.handle)
+likeRoute.delete("/remove/:likeId", ensureAuthenticated, deletelikeController.handle)
 
 export { likeRoute as likesRoutes }

@@ -7,7 +7,9 @@ interface FavoriteEpisodeSerialiazedDataDTO {
         members: string
         publishedAt: string
         slug: string
+        url?: string
     }
+    accountId: string
 }
 
 export { FavoriteEpisodeSerialiazedDataDTO }

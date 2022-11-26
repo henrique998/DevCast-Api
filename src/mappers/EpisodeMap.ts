@@ -2,6 +2,7 @@ import { EpisodeDataDTO } from "../dtos/episode/EpisodeDataDTO";
 
 class EpisodeMap {
     static toDto({ 
+        id,
         thumbnail, 
         title, 
         description, 
@@ -12,6 +13,7 @@ class EpisodeMap {
         _count,
     }: EpisodeDataDTO) {
         return {
+            id,
             thumbnail, 
             title, 
             description, 

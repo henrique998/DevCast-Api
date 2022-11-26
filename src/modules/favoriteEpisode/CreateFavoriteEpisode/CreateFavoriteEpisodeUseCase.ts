@@ -1,4 +1,5 @@
 import { inject, injectable } from "tsyringe"
+import { FavoriteEpisodeSerialiazedDataDTO } from "../../../dtos/favoriteEpisode/FavoriteEpisodeSerialiazedDataDTO"
 import { AppError } from "../../../errors/AppError"
 import { IFavoritesEpisodesRepository } from "../../../repositories/favoritesEpisodes/IFavoritesEpisodesRepository"
 
@@ -14,7 +15,7 @@ class CreateFavoriteEpisodeUseCase {
         private favoritesEpisodesRepository: IFavoritesEpisodesRepository
     ) {}
 
-    async execute({ episodeId, accountId }: IRequest): Promise<void> {
+    async execute({ episodeId, accountId }: IRequest): Promise<FavoriteEpisodeSerialiazedDataDTO> {
         if (!episodeId) {
             throw new AppError("episode id is required!")
         }
@@ -23,20 +24,21 @@ class CreateFavoriteEpisodeUseCase {
             throw new AppError("account id is required!")
         }
 
-        const favoriteEpisodeAlreadyExists = await this.favoritesEpisodesRepository.findByEpisodIdAndAccountId({
+        const favoriteEpisodeExists = await this.favoritesEpisodesRepository.findByEpisodIdAndAccountId({
             episodeId,
             accountId
         })
 
-        if (favoriteEpisodeAlreadyExists) {
-            await this.favoritesEpisodesRepository.delete(favoriteEpisodeAlreadyExists.id)
+        if (favoriteEpisodeExists) {
             return;
         }
 
-        await this.favoritesEpisodesRepository.create({
+        const episode = await this.favoritesEpisodesRepository.create({
             episodeId,
             accountId
         })
+
+        return episode
     }
 }
 

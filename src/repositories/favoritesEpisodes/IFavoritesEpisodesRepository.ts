@@ -4,7 +4,7 @@ import { ICreateFavoriteEpisodeDTO } from "../../dtos/favoriteEpisode/ICreateFav
 import { IFindFavoriteEpisodeDTO } from "../../dtos/favoriteEpisode/IFindFavoriteEpisodeDTO"
 
 interface IFavoritesEpisodesRepository {
-    create(data: ICreateFavoriteEpisodeDTO): Promise<void>
+    create(data: ICreateFavoriteEpisodeDTO): Promise<FavoriteEpisodeSerialiazedDataDTO>
     delete(favoriteEpisodeId: string): Promise<void>
     findAll(accountId: string): Promise<FavoriteEpisodeSerialiazedDataDTO[]>
     findByEpisodIdAndAccountId(data: IFindFavoriteEpisodeDTO): Promise<FavoriteEpisodeDataDTO>

@@ -19,17 +19,16 @@ class RemoveFavoriteEpisodeUseCase {
             throw new AppError("favorite episode id is required!")
         }
 
-        const favoriteEpisodeExists = await this.favoritesEpisodesRepository.findById(favoriteEpisodeId)
+        const favoriteEpisodeExists = await this.favoritesEpisodesRepository.findByEpisodIdAndAccountId({
+            accountId,
+            episodeId: favoriteEpisodeId
+        })
 
         if (!favoriteEpisodeExists) {
             throw new AppError("Episode not found!")
         }
 
-        if (favoriteEpisodeExists && favoriteEpisodeExists.accountId !== accountId) {
-            throw new AppError("Unauthorized action!")
-        }
-
-        await this.favoritesEpisodesRepository.delete(favoriteEpisodeId)
+        await this.favoritesEpisodesRepository.delete(favoriteEpisodeExists.id)
     }
 }
 

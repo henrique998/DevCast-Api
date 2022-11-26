@@ -5,7 +5,7 @@ import { ILikesRepository } from "../../../repositories/likes/ILikesRepository"
 
 interface IRequest {
     accountId: string
-    likeId: string
+    episodeId: string
 }
 
 @injectable()
@@ -15,26 +15,17 @@ class DeleteLikeUseCase {
         private likesRepository: ILikesRepository
     ) {}
 
-    async execute({ accountId, likeId }: IRequest): Promise<LikeDataDTO[]> {
-        if (!likeId) {
-            throw new AppError("like id is required!")
-        }
-
-        const likeExists = await this.likesRepository.findById(likeId)
+    async execute({ accountId, episodeId }: IRequest): Promise<void> {
+        const likeExists = await this.likesRepository.findByAccountIdAndEpisode({
+            accountId,
+            episodeId
+        })
 
         if (!likeExists) {
             throw new AppError("Like not found!", 404)
         }
 
-        if (likeExists && likeExists.accountId !== accountId) {
-            throw new AppError("Unauthorized action!")
-        }
-
-        await this.likesRepository.delete(likeId)
-
-        const remainingLikes = await this.likesRepository.findAll()
-
-        return remainingLikes
+        await this.likesRepository.delete(likeExists.id)
     }
 }
 

@@ -14,6 +14,7 @@ interface UniquePlaylistDataDTO {
         publishedAt: string
         duration: number
         slug: string
+        url: string
         likes: {
             id: string
             accountId: string

@@ -1,6 +1,7 @@
 import { prisma } from "../../../config/prisma";
 import { IAddToPlaylistDTO } from "../../../dtos/playlist/IAddToPlaylistDTO";
 import { ICreatePlayListDTO } from "../../../dtos/playlist/ICreatePlaylistDTO";
+import { IFindPlayListDTO } from "../../../dtos/playlist/IFindPlaylistDTO";
 import { PlaylistDataDTO } from "../../../dtos/playlist/PlaylistDataDTO";
 import { UniquePlaylistDataDTO } from "../../../dtos/playlist/UniquePlaylistDataDTO";
 import { IPlaylistsRepository } from "../IPlaylistsRepository";
@@ -62,6 +63,44 @@ class PrismaPlaylistsRepository implements IPlaylistsRepository {
                         publishedAt: true,
                         duration: true,
                         slug: true,
+                        url: true,
+                        likes: {
+                            select: {
+                                id: true,
+                                accountId: true,
+                                episodeId: true,
+                            }
+                        }
+                    },
+                },
+                _count: {
+                    select: {
+                        episodes: true
+                    }
+                },
+            }
+        })
+
+        return playlist
+    }
+
+    async findBySlugAndAccountId(data: IFindPlayListDTO): Promise<UniquePlaylistDataDTO> {
+        const playlist = await prisma.playlist.findFirst({
+            where: {
+                accountId: data.accountId,
+                slug: data.slug
+            },
+            include: {
+                episodes: {
+                    select: {
+                        id: true,
+                        thumbnail: true,
+                        title: true,
+                        members: true,
+                        publishedAt: true,
+                        duration: true,
+                        slug: true,
+                        url: true,
                         likes: {
                             select: {
                                 id: true,
